@@ -1,0 +1,30 @@
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: ${SOFTWARE_PASSWORD}
+    ports:
+      - "25432:5432"
+    volumes:
+      - /home/socram/docker/postgress:/var/lib/postgresql/data 
+    networks:
+      - postgres
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${ADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${ADMIN_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres
+
+networks: 
+  postgres:
+    driver: bridge
